@@ -1,12 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+using api.DTOs.Comment;
 using api.interfaces;
 using api.Mappers;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace api.Controllers
 {
@@ -15,10 +10,12 @@ namespace api.Controllers
     public class CommnetController : ControllerBase
     {
         private readonly ICommentRepository _commentRepo;
+        private readonly IStockRepository _stockRepo;
         
-       public CommnetController(ICommentRepository commentRepo)
+       public CommnetController(ICommentRepository commentRepo, IStockRepository stockRepo)
        {
         _commentRepo = commentRepo;
+        _stockRepo = stockRepo;
        }
        [HttpGet]
        public async Task<IActionResult> GetAll()
@@ -27,7 +24,7 @@ namespace api.Controllers
             var commentDto = comments.Select(s => s.ToCommentDto());
             return Ok(commentDto);
        }
-        [HttpGet("{id}")]
+       [HttpGet("{id}")]
        public async Task<IActionResult> GetById([FromRoute] int id)
        {
             var comment = await _commentRepo.GetByIdAsync(id);
@@ -37,6 +34,17 @@ namespace api.Controllers
             }
 
             return Ok(comment.ToCommentDto());
+       }
+       [HttpPost("{stockId}")]
+       public async Task<IActionResult> Create([FromRoute] int stockId,CreateCommentDto commentDto)
+       {
+        if(!await _stockRepo.StockExist(stockId)){
+            return BadRequest("Stock does not exist");
+        }
+        var commentModel = commentDto.ToCommentFromCreate(stockId);
+        await _commentRepo.CreateAsync(commentModel);
+
+        return CreatedAtAction(nameof(GetById), new {id = commentModel}, commentModel.ToCommentDto());
        }
     }
 }

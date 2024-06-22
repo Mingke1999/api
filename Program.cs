@@ -52,6 +52,7 @@ builder.Services.AddDbContext<ApplicationDBContext>(options =>{
 builder.Services.AddScoped<IStockRepository, StockRepo>();
 builder.Services.AddScoped<ICommentRepository, CommentRepo>();
 builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IPortfolioRepository, PortfolioRepo>();
 
 builder.Services.AddIdentity<User, IdentityRole>(options =>{
     options.Password.RequireDigit = true;

@@ -25,7 +25,7 @@ namespace api.Repository
 
         public async Task<Stock?> DeleteAsync(int id)
         {
-            var stockModel = await _context.Stocks.FirstOrDefaultAsync(x=> x.stockId == id);
+            var stockModel = await _context.Stocks.FirstOrDefaultAsync(x=> x.StockId == id);
             if(stockModel == null){
                 return null;
             }
@@ -62,17 +62,17 @@ namespace api.Repository
         {
             return await _context.Stocks
             .Include(s => s.Commnents)
-            .FirstOrDefaultAsync(x => x.stockId  == id);
+            .FirstOrDefaultAsync(x => x.StockId  == id);
         }
 
         public Task<bool> StockExist(int id)
         {
-            return _context.Stocks.AnyAsync(s => s.stockId == id);
+            return _context.Stocks.AnyAsync(s => s.StockId == id);
         }
 
         public async Task<Stock?> UpdateAsync(int id, UpdateStockRequestDto updateDto)
         {
-            var existingStock = await _context.Stocks.FirstOrDefaultAsync(x => x.stockId == id);
+            var existingStock = await _context.Stocks.FirstOrDefaultAsync(x => x.StockId == id);
             if(existingStock == null){
                 return null;
             }

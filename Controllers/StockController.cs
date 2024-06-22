@@ -55,7 +55,7 @@ namespace api.Controllers
             var stockModel = requestDto.ToStockRequestDto();
             await _stockRepo.CreateAsync(stockModel);
             return CreatedAtAction(nameof(GetById), 
-                    new {id = stockModel.stockId}, 
+                    new {id = stockModel.StockId}, 
                     stockModel.ToStockDto());
         }
         [HttpPut]

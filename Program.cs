@@ -88,7 +88,13 @@ builder.Services.AddAuthentication(options =>{
 
 
 var app = builder.Build();
-
+app.UseCors(x => x
+    .AllowAnyHeader()
+    .AllowAnyMethod()
+    .AllowCredentials()
+    //withorigins("http://localhost:5095")
+    .SetIsOriginAllowed(origin => true)
+);
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

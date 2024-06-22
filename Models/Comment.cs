@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace api.Models
 {
@@ -16,5 +17,8 @@ namespace api.Models
         public int? StockId { get; set; }
         //navigation property
         public Stock? Stock { get; set; }
+
+        public string AppUserId {get; set;}
+        public User AppUser {get; set;}
     }
 }

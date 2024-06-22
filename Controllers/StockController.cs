@@ -4,6 +4,7 @@ using api.interfaces;
 using api.Helpers;
 using api.Mappers;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace api.Controllers
 {
@@ -22,6 +23,7 @@ namespace api.Controllers
         } //what context receiving
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> GetAll([FromQuery] QueryObject query)
         {
             if(!ModelState.IsValid)
